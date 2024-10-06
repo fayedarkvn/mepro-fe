@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: checkout repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: ssh server with ssh public key
         uses: appleboy/ssh-action@master
@@ -19,5 +19,7 @@ jobs:
           port: ${{ secrets.SERVER_PORT }}
           script: |
             cd ${{ secrets.PATH_FOLDER }} &&
-            git pull origin main &&
+            git switch main &&
+            git reset --hard HEAD &&
+            git pull &&
             docker compose up -d --build
