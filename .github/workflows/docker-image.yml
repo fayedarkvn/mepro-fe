@@ -19,7 +19,7 @@ jobs:
           port: ${{ secrets.SERVER_PORT }}
           script: |
             cd ${{ secrets.PATH_FOLDER }} &&
-            git switch main &&
-            git reset --hard HEAD &&
+            git checkout main &&
+            git reset --hard origin/main &&
             git pull &&
             docker compose up -d --build
