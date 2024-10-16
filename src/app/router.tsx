@@ -1,22 +1,35 @@
-import { lazy } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { IndexPage } from './index-page/index-page';
-import { NotFound } from './not-found';
+import { createRootRoute, createRouter, Outlet } from '@tanstack/react-router';
+import { TSRDevtools } from 'src/components/tsr-devtools';
+import { NotFound } from '../components/not-found';
+import { authRoute } from './auth/auth.route';
+import { dashboardRoute } from './dashboard/dashboard.route';
+import { indexPageRoute } from './index-page/index-page.route';
+import { infomationalRoute } from './informational/informational.route';
+import { publicProfileRoute } from './public-profile/public-profile.route';
 
-const AuthRoutes = lazy(() => import('./auth/auth.route'));
-const DashboardRoutes = lazy(() => import('./dashboard/dashboard.route'));
-const InformationalRoutes = lazy(() => import('./informational/informational.route'));
+export const rootRoute = createRootRoute({
+  component: () => (
+    <>
+      <Outlet />
+      <TSRDevtools />
+    </>
+  ),
+  notFoundComponent: NotFound,
+});
 
-export const AppRouter = () => {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<IndexPage />} />
-        <Route path="/auth/*" element={<AuthRoutes />} />
-        <Route path="/dashboard/*" element={<DashboardRoutes />} />
-        <Route path="/infomational/*" element={<InformationalRoutes />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </BrowserRouter>
-  );
-};
+
+export const routeTree = rootRoute.addChildren([
+  indexPageRoute,
+  infomationalRoute,
+  dashboardRoute,
+  authRoute,
+  publicProfileRoute,
+]);
+
+export const router = createRouter({ routeTree });
+
+declare module '@tanstack/react-router' {
+  interface Register {
+    router: typeof router;
+  }
+}

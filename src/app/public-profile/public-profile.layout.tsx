@@ -1,9 +1,9 @@
 import { Outlet } from "@tanstack/react-router";
 
-export function InfomationalLayout() {
+export function PublicProfileLayout() {
   return (
     <div>
-      <h3>Infomational</h3>
+      <h3>Public Profile</h3>
       <Outlet />
     </div>
   );

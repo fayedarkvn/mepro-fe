@@ -1,17 +1,18 @@
-import { Route, Routes } from 'react-router-dom';
-import { NotFound } from '../not-found';
+import { createRoute } from '@tanstack/react-router';
+import { rootRoute } from '../router';
 import { DashboardLayout } from './dashboard.layout';
+import { DashboardProfilePage } from './profile';
 
-export function DashboardRoutes() {
-  return (
-    <Routes>
-      <Route element={<DashboardLayout />}>
-        <Route index element={<div>dashboard</div>} />
-        <Route path="profile" element={<div>my profile</div>} />
-        <Route path="*" element={<NotFound />} />
-      </Route>
-    </Routes>
-  );
-}
+const _dashboardRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/dashboard',
+  component: DashboardLayout,
+});
 
-export default DashboardRoutes;
+export const dashboardRoute = _dashboardRoute.addChildren([
+  createRoute({
+    getParentRoute: () => _dashboardRoute,
+    path: '/profile',
+    component: DashboardProfilePage,
+  }),
+]);

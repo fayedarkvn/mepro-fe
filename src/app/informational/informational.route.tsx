@@ -1,19 +1,24 @@
-import { Route, Routes } from 'react-router-dom';
-import { NotFound } from '../not-found';
-import { InfomationalLayout } from './informational.layout';
+import { createRoute } from '@tanstack/react-router';
+import { rootRoute } from '../router';
 import { AboutPage } from './about';
 import { ContactPage } from './contact';
+import { InfomationalLayout } from './informational.layout';
 
-export function InfomationalRoutes() {
-  return (
-    <Routes>
-      <Route element={<InfomationalLayout />}>
-        <Route path="about" element={<AboutPage />} />
-        <Route path="contact" element={<ContactPage />} />
-        <Route path="*" element={<NotFound />} />
-      </Route>
-    </Routes>
-  );
-}
+const _infomationalRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/i',
+  component: InfomationalLayout,
+});
 
-export default InfomationalRoutes;
+export const infomationalRoute = _infomationalRoute.addChildren([
+  createRoute({
+    getParentRoute: () => _infomationalRoute,
+    path: '/about',
+    component: AboutPage,
+  }),
+  createRoute({
+    getParentRoute: () => _infomationalRoute,
+    path: '/contact',
+    component: ContactPage,
+  }),
+]);
