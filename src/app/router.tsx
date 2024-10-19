@@ -1,6 +1,6 @@
 import { createRootRoute, createRouter, Outlet } from '@tanstack/react-router';
-import { TSRDevtools } from 'src/components/tsr-devtools';
-import { NotFound } from '../components/not-found';
+import { NotFound } from '../components/error/not-found';
+import { TSRDevtools } from '../components/tsr-devtools';
 import { authRoute } from './auth/auth.route';
 import { dashboardRoute } from './dashboard/dashboard.route';
 import { indexPageRoute } from './index-page/index-page.route';
@@ -26,7 +26,10 @@ export const routeTree = rootRoute.addChildren([
   publicProfileRoute,
 ]);
 
-export const router = createRouter({ routeTree });
+export const router = createRouter({
+  routeTree,
+  defaultNotFoundComponent: NotFound,
+});
 
 declare module '@tanstack/react-router' {
   interface Register {

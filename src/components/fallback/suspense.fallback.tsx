@@ -1,4 +1,4 @@
-export function Fallback() {
+export function SuspenseFallback() {
   return (
     <div>Loading...</div>
   );
