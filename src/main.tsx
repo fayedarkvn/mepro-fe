@@ -1,23 +1,32 @@
-import { StrictMode } from 'react';
+import { lazy, StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { App } from './app';
 import { ConfigurationError } from './components/configuration-error';
-import { envError } from './config/env.client';
 import './index.css';
 
 const root = createRoot(document.getElementById('root')!);
 
-if (envError) {
-  root.render(
-    <ConfigurationError
-      message="Environment configuration error"
-    />
-  );
-  throw envError;
-}
+const App = lazy(async () => {
+  const module = await import('./app');
+  return { default: module.App };
+});
 
-root.render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-);
+const main = async () => {
+  try {
+    await import('./config/env.client');
+  } catch (e) {
+    root.render(
+      <ConfigurationError
+        message="Environment configuration error"
+      />
+    );
+    throw e;
+  }
+
+  root.render(
+    <StrictMode>
+      <App />
+    </StrictMode>
+  );
+};
+
+main();
