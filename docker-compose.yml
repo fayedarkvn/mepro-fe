@@ -1,7 +1,0 @@
-services:
-  web:
-    image: "mepro-fe"
-    build:
-      context: .
-    ports:
-      - 4010:80
