@@ -11,7 +11,12 @@ export interface ILoginCredentials {
 }
 
 export const loginApi = async (credentials: ILoginCredentials): Promise<LoginResponse> => {
-  const response = await api.post<LoginResponse>('/auth/login', credentials);
+  const response = await api.post<LoginResponse>('/auth/sign-in', credentials);
+  return response.data;
+};
+
+export const googleLoginApi = async (code: string): Promise<LoginResponse> => {
+  const response = await api.post<LoginResponse>('/auth/google', { code });
   return response.data;
 };
 

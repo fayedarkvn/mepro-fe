@@ -1,4 +1,5 @@
-import { getMeApi } from "src/api/auth.api";
+import { useGoogleLogin } from "@react-oauth/google";
+import { googleLoginApi, loginApi } from "src/api/auth.api";
 import { useAuth } from "src/providers/auth.provider";
 
 export function LoginPage() {
@@ -6,20 +7,24 @@ export function LoginPage() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    login({
-      username: formData.get('username') as string,
-      password: formData.get('password') as string,
+    const loginFn = async () => loginApi({
+      username: formData.get("username") as string,
+      password: formData.get("password") as string
     });
+    login(loginFn);
   };
 
   const handleLogoutClick = () => {
     logout();
   };
 
-  const handleGetMeTestClick = async () => {
-    const response = await getMeApi();
-    console.log(response);
-  };
+  const googleLogin = useGoogleLogin({
+    onSuccess: async ({ code }) => {
+      const loginFn = async () => googleLoginApi(code);
+      login(loginFn);
+    },
+    flow: "auth-code"
+  });
 
   return (
     <div>
@@ -27,7 +32,7 @@ export function LoginPage() {
         user ? (
           <>
             <h2>Logged in</h2>
-            <p>current user: {user?.username}</p>
+            <p>current user: {user.email}</p>
             <button onClick={handleLogoutClick}>Logout</button>
           </>
         ) : (
@@ -42,7 +47,7 @@ export function LoginPage() {
         )
       }
       <div>
-        <button onClick={handleGetMeTestClick}>Fetch test</button>
+        <button onClick={() => googleLogin()}>Login with google</button>
       </div>
     </div>
   );
