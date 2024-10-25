@@ -2,16 +2,19 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { createContext, ReactNode, useContext } from 'react';
 import { LOCAL_STORAGE_KEY } from 'src/constants/local-storage.constant';
 import { IUser } from 'src/types/user';
-import { getMeApi, ILoginCredentials, loginApi } from '../api/auth.api';
+import { getMeApi, LoginResponse } from '../api/auth.api';
 
-interface AuthContextType {
+
+type LoginFn = () => Promise<LoginResponse>;
+type LogoutFn = () => Promise<any>;
+export interface IAuthContext {
   user: IUser | null;
   isLoading: boolean;
-  login: (credentials: ILoginCredentials) => Promise<void>;
-  logout: () => Promise<void>;
+  login: (loginFn: LoginFn) => Promise<void>;
+  logout: (logoutFn?: LogoutFn) => Promise<void>;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+const AuthContext = createContext<IAuthContext | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode; }) => {
   const queryClient = useQueryClient();
@@ -28,10 +31,7 @@ export const AuthProvider = ({ children }: { children: ReactNode; }) => {
   });
 
   const loginMutation = useMutation({
-    mutationFn: async (credentials: ILoginCredentials) => {
-      const data = await loginApi(credentials);
-      return data;
-    },
+    mutationFn: async (loginFn: LoginFn) => loginFn(),
     onSuccess: (data) => {
       localStorage.setItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN, data.accessToken);
       queryClient.setQueryData(['auth', 'user'], data.user);
@@ -39,21 +39,19 @@ export const AuthProvider = ({ children }: { children: ReactNode; }) => {
   });
 
   const logoutMutation = useMutation({
-    mutationFn: async () => {
-      return Promise.resolve();
-    },
+    mutationFn: async (logoutFn: LogoutFn) => logoutFn(),
     onSuccess: () => {
       localStorage.removeItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN);
       queryClient.setQueryData(['auth', 'user'], null);
     },
   });
 
-  const loginUser = async (credentials: ILoginCredentials) => {
-    await loginMutation.mutateAsync(credentials);
+  const loginUser = async (loginFn: LoginFn) => {
+    await loginMutation.mutateAsync(loginFn);
   };
 
-  const logoutUser = async () => {
-    await logoutMutation.mutateAsync();
+  const logoutUser = async (logoutFn: LogoutFn = () => Promise.resolve(null)) => {
+    await logoutMutation.mutateAsync(logoutFn);
   };
 
   return (
