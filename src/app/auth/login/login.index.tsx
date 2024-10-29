@@ -5,6 +5,7 @@ import { Button, Input } from "antd";
 import { useEffect, useState } from "react";
 import { useMessage } from "src/hook/message.hook";
 import { IUser } from "src/types/user";
+import { IApiError } from "src/api/api";
 
 export function LoginPage() {
   const { login, user, logout } = useAuth();
@@ -41,31 +42,27 @@ export function LoginPage() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const originalConsoleError = console.error;
-    setLoading(true);
     const formData = new FormData(event.currentTarget);
-    const loginFn = async () => {
-      try {
-        const response = await loginApi({
-          username: formData.get("username") as string,
-          password: formData.get("password") as string,
-        });
+    const loginFn = () => loginApi({
+      username: formData.get("username") as string,
+      password: formData.get("password") as string,
+    });
+
+    setLoading(true);
+    await login(loginFn)
+      .then((response) => {
         saveUserToLocalStorage(response.user);
         // kiểm tra xem trong localstorage có link điều hướng từ trang cũ tới không
         const oldLink = localStorage.getItem("oldLink") as string;
-        console.log(oldLink)
         window.location.href = oldLink !== null ? oldLink : "/";
-        return response;
-      } catch (error: any) {
+      })
+      .catch((error: IApiError) => {
         const description = error.message;
         openNotification(description);
-        throw error;
-      } finally {
+      })
+      .finally(() => {
         setLoading(false);
-        console.error = originalConsoleError;
-      }
-    };
-    login(loginFn);
+      });
   };
 
   const handleLogoutClick = () => {
@@ -75,11 +72,17 @@ export function LoginPage() {
   const googleLogin = useGoogleLogin({
     onSuccess: async ({ code }) => {
       const loginFn = async () => googleLoginApi(code);
-      login(loginFn);
-      // kiểm tra xem trong localstorage có link điều hướng từ trang cũ tới không
-      const oldLink = localStorage.getItem("oldLink") as string;
-      console.log(oldLink)
-      window.location.href = oldLink !== null ? oldLink : "/";
+      await login(loginFn)
+        .then((response) => {
+          saveUserToLocalStorage(response.user);
+          // kiểm tra xem trong localstorage có link điều hướng từ trang cũ tới không
+          const oldLink = localStorage.getItem("oldLink") as string;
+          window.location.href = oldLink !== null ? oldLink : "/";
+        })
+        .catch((error: IApiError) => {
+          const description = error.message;
+          openNotification(description);
+        });
     },
     flow: "auth-code",
   });
