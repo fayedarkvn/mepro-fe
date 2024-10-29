@@ -4,17 +4,18 @@ import { useAuth } from "src/providers/auth.provider";
 import { Button, Input } from "antd";
 import { useEffect, useState } from "react";
 import { useMessage } from "src/hook/message.hook";
+import { IUser } from "src/types/user";
 
 export function LoginPage() {
   const { login, user, logout } = useAuth();
   const { contextHolder, openNotification } = useMessage();
   //States
   const [loading, setLoading] = useState(false);
-  const [oldUsers, setOldUsers] = useState<any[]>([]);
+  const [oldUsers, setOldUsers] = useState<IUser[]>([]);
   const [reload, setReload] = useState(false);
   const [valueMail, setValueMail] = useState<string>();
   // function add new data user to localStorage
-  const saveIUser = (newUser: any) => {
+  const saveUserToLocalStorage = (newUser: IUser) => {
     const storedUsers = JSON.parse(localStorage.getItem("oldUsers") || "[]");
     const isDuplicate = storedUsers.some(
       (user: any) => user.email === newUser.email
@@ -49,7 +50,11 @@ export function LoginPage() {
           username: formData.get("username") as string,
           password: formData.get("password") as string,
         });
-        saveIUser(response.user);
+        saveUserToLocalStorage(response.user);
+        // kiểm tra xem trong localstorage có link điều hướng từ trang cũ tới không
+        const oldLink = localStorage.getItem("oldLink") as string;
+        console.log(oldLink)
+        window.location.href = oldLink !== null ? oldLink : "/";
         return response;
       } catch (error: any) {
         const description = error.message;
@@ -85,24 +90,23 @@ export function LoginPage() {
   return (
     <div>
       {user ? (
-        <>
-          <h2>Logged in</h2>
-          <p>current user: {user.email}</p>
-          <button onClick={handleLogoutClick}>Logout</button>
-        </>
+        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
+          <h2 className="text-2xl font-bold text-gray-700 mb-2">Logged in</h2>
+          <p className="text-gray-600 mb-4">Current user: {user.email}</p>
+          <button
+            onClick={handleLogoutClick}
+            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
+          >
+            Logout
+          </button>
+        </div>
       ) : (
         <>
           {contextHolder}
           <div className="flex flex-col lg:flex-row min-h-screen bg-gray-100">
             {/* Left Section */}
             <div className="lg:w-1/2 lg:min-h-screen bg-[url('/thumb-login.svg')] bg-cover bg-center text-white flex flex-col items-center justify-center p-10 h-[250px]">
-              <div className="text-center lg:text-left max-w-xs p-4 rounded">
-                {/* <h1 className="text-4xl font-bold mb-4">Sign in to</h1>
-                <p className="text-2xl">Mepro - FayeDark</p>
-                <p className="mt-4 text-sm">
-                  Nền tảng mạng xã hội số 1 Việt Nam
-                </p> */}
-              </div>
+              <div className="text-center lg:text-left max-w-xs p-4 rounded"></div>
             </div>
 
             {/* Right Section */}
@@ -116,7 +120,7 @@ export function LoginPage() {
                   Sign in
                 </h1>
                 <form onSubmit={handleSubmit} className="mt-8 space-y-4">
-                  <div className="mb-[-20px]">
+                  <div>
                     <label className="block text-sm font-medium text-gray-700">
                       Email
                     </label>
@@ -126,9 +130,8 @@ export function LoginPage() {
                       placeholder="example@fayedark.com"
                       value={valueMail}
                     />
-                    ;
                   </div>
-                  <div className="mb-[10px]">
+                  <div className="mt-[20px]">
                     <label className="block text-sm font-medium text-gray-700">
                       Password
                     </label>
@@ -179,7 +182,7 @@ export function LoginPage() {
                     Recently Logged
                   </h4>
                   <div className="mt-10 flex gap-4 flex-wrap justify-center">
-                    {oldUsers.map((data: any, index: any) => (
+                    {oldUsers.map((data, index) => (
                       <div
                         key={index}
                         className="flex flex-col items-center m-[10px]"
