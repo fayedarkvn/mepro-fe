@@ -10,8 +10,8 @@ type LogoutFn = () => Promise<any>;
 export interface IAuthContext {
   user: IUser | null;
   isLoading: boolean;
-  login: (loginFn: LoginFn) => Promise<void>;
-  logout: (logoutFn?: LogoutFn) => Promise<void>;
+  login: (loginFn: LoginFn) => Promise<LoginResponse>;
+  logout: (logoutFn?: LogoutFn) => Promise<any>;
 }
 
 const AuthContext = createContext<IAuthContext | undefined>(undefined);
@@ -47,11 +47,11 @@ export const AuthProvider = ({ children }: { children: ReactNode; }) => {
   });
 
   const loginUser = async (loginFn: LoginFn) => {
-    await loginMutation.mutateAsync(loginFn);
+    return await loginMutation.mutateAsync(loginFn);
   };
 
   const logoutUser = async (logoutFn: LogoutFn = () => Promise.resolve(null)) => {
-    await logoutMutation.mutateAsync(logoutFn);
+    return await logoutMutation.mutateAsync(logoutFn);
   };
 
   return (
