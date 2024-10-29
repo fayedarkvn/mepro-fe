@@ -1,6 +1,20 @@
-import Axios, { InternalAxiosRequestConfig } from "axios";
+import Axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 import { env } from "src/config/env.client";
+import { DEFAULT_API_ERROR, DEFAULT_API_ERROR_STATUS } from "src/constants/api-error";
 import { LOCAL_STORAGE_KEY } from "src/constants/local-storage.constant";
+
+export interface IApiError {
+  message: string;
+  status?: number;
+  data?: any;
+}
+
+export const api = Axios.create({
+  baseURL: env.VITE_APP_API_URL,
+});
+
+api.interceptors.request.use(authRequestInterceptor);
+api.interceptors.response.use(undefined, apiErrorInterceptor);
 
 function authRequestInterceptor(config: InternalAxiosRequestConfig) {
   if (config.headers) {
@@ -12,17 +26,28 @@ function authRequestInterceptor(config: InternalAxiosRequestConfig) {
   return config;
 }
 
-export const api = Axios.create({
-  baseURL: env.VITE_APP_API_URL,
-});
+function apiErrorInterceptor(error: AxiosError<any>) {
+  const apiError: IApiError = Object.assign({}, DEFAULT_API_ERROR);
+  
+  apiError.message = error.message;
 
-api.interceptors.request.use(authRequestInterceptor);
-api.interceptors.response.use(
-  (response) => {
-    return response;
-  },
-  (error) => {
-    const errorMessage = error.response?.data?.message || "Unknown Error";
-    return Promise.reject({ message: errorMessage });
+  const { response } = error;
+  if (response) {
+    const status = response.status;
+
+    apiError.status = status;
+
+    apiError.message =
+      response.data?.message ??
+      DEFAULT_API_ERROR_STATUS[status]?.message ??
+      apiError.message;
+
+    apiError.data = response.data;
   }
-);
+
+  if (error.code === "ERR_NETWORK") {
+    apiError.message = error.message;
+  }
+
+  return Promise.reject(apiError);
+}
