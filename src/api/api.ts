@@ -1,6 +1,6 @@
-import Axios, { InternalAxiosRequestConfig } from 'axios';
-import { env } from 'src/config/env.client';
-import { LOCAL_STORAGE_KEY } from 'src/constants/local-storage.constant';
+import Axios, { InternalAxiosRequestConfig } from "axios";
+import { env } from "src/config/env.client";
+import { LOCAL_STORAGE_KEY } from "src/constants/local-storage.constant";
 
 function authRequestInterceptor(config: InternalAxiosRequestConfig) {
   if (config.headers) {
@@ -9,7 +9,6 @@ function authRequestInterceptor(config: InternalAxiosRequestConfig) {
       config.headers.Authorization = `Bearer ${token}`;
     }
   }
-
   return config;
 }
 
@@ -18,3 +17,12 @@ export const api = Axios.create({
 });
 
 api.interceptors.request.use(authRequestInterceptor);
+api.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    const errorMessage = error.response?.data?.message || "Unknown Error";
+    return Promise.reject({ message: errorMessage });
+  }
+);
