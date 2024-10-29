@@ -76,6 +76,10 @@ export function LoginPage() {
     onSuccess: async ({ code }) => {
       const loginFn = async () => googleLoginApi(code);
       login(loginFn);
+      // kiểm tra xem trong localstorage có link điều hướng từ trang cũ tới không
+      const oldLink = localStorage.getItem("oldLink") as string;
+      console.log(oldLink)
+      window.location.href = oldLink !== null ? oldLink : "/";
     },
     flow: "auth-code",
   });
