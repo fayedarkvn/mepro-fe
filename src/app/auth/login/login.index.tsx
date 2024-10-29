@@ -3,11 +3,11 @@ import { googleLoginApi, loginApi } from "src/api/auth.api";
 import { useAuth } from "src/providers/auth.provider";
 import { Button, Input } from "antd";
 import { useEffect, useState } from "react";
-import { useMessageError } from "src/hook/message.hook";
+import { useMessage } from "src/hook/message.hook";
 
 export function LoginPage() {
   const { login, user, logout } = useAuth();
-  const { contextHolder, openNotification } = useMessageError();
+  const { contextHolder, openNotification } = useMessage();
   //States
   const [loading, setLoading] = useState(false);
   const [oldUsers, setOldUsers] = useState<any[]>([]);

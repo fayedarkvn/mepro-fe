@@ -1,6 +1,6 @@
 import { notification } from "antd";
 
-export const useMessageError = () => {
+export const useMessage = () => {
   const [api, contextHolder] = notification.useNotification();
 
   const openNotification = (description: any) => {
