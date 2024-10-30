@@ -7,4 +7,6 @@ export interface IUser {
   id: number;
   email: string;
   role: UserRoleEnum;
+  image: string;
+  name: string;
 }

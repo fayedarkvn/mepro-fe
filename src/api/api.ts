@@ -1,7 +1,7 @@
-import Axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
-import { env } from 'src/config/env.client';
-import { DEFAULT_API_ERROR, DEFAULT_API_ERROR_STATUS } from 'src/constants/api-error';
-import { LOCAL_STORAGE_KEY } from 'src/constants/local-storage.constant';
+import Axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
+import { env } from "src/config/env.client";
+import { DEFAULT_API_ERROR, DEFAULT_API_ERROR_STATUS } from "src/constants/api-error";
+import { LOCAL_STORAGE_KEY } from "src/constants/local-storage.constant";
 
 export interface IApiError {
   message: string;
@@ -23,13 +23,12 @@ function authRequestInterceptor(config: InternalAxiosRequestConfig) {
       config.headers.Authorization = `Bearer ${token}`;
     }
   }
-
   return config;
 }
 
 function apiErrorInterceptor(error: AxiosError<any>) {
   const apiError: IApiError = Object.assign({}, DEFAULT_API_ERROR);
-
+  
   apiError.message = error.message;
 
   const { response } = error;
