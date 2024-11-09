@@ -47,7 +47,6 @@ export function LoginPage() {
       username: formData.get("username") as string,
       password: formData.get("password") as string,
     });
-
     setLoading(true);
     await login(loginFn)
       .then((response) => {

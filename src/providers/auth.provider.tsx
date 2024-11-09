@@ -4,7 +4,6 @@ import { LOCAL_STORAGE_KEY } from 'src/constants/local-storage.constant';
 import { IUser } from 'src/types/user';
 import { getMeApi, LoginResponse } from '../api/auth.api';
 
-
 type LoginFn = () => Promise<LoginResponse>;
 type LogoutFn = () => Promise<any>;
 export interface IAuthContext {
