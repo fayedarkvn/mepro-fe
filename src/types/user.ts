@@ -8,5 +8,6 @@ export interface IUser {
   email: string;
   role: UserRoleEnum;
   image: string;
+  imageUrl: string;
   name: string;
 }
