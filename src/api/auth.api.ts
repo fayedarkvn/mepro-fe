@@ -9,6 +9,15 @@ export interface ILoginCredentials {
   username: string;
   password: string;
 }
+export interface SignupResponse {
+  accessToken: string;
+  user: IUser;
+}
+export interface ISignupCredentials {
+  name: string,
+  email: string,
+  password: string,
+}
 
 export const loginApi = async (
   credentials: ILoginCredentials
@@ -26,3 +35,12 @@ export const getMeApi = async (): Promise<IUser> => {
   const response = await api.get<IUser>("/auth/me");
   return response.data;
 };
+
+export const signupApi = async (
+    credentials: ISignupCredentials
+): Promise<SignupResponse> => {
+  const response = await api.post<SignupResponse>("/auth/sign-up", credentials);
+  return response.data;
+}
+
+
