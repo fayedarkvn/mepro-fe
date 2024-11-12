@@ -9,5 +9,6 @@ export interface IUser {
   role: UserRoleEnum;
   image: string;
   imageUrl: string;
+  imageProvider: string;
   name: string;
 }
