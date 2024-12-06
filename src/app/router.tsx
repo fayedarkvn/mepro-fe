@@ -17,7 +17,6 @@ export const rootRoute = createRootRoute({
   notFoundComponent: NotFound,
 });
 
-
 export const routeTree = rootRoute.addChildren([
   indexPageRoute,
   infomationalRoute,

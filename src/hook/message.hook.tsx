@@ -1,12 +1,12 @@
-import { notification } from "antd";
+import { notification } from 'antd';
 
-export const useMessage = () => {
+export function useMessage() {
   const [api, contextHolder] = notification.useNotification();
 
   const openNotification = (description: any) => {
     api.open({
-      message: "Error!",
-      description: description,
+      message: 'Error!',
+      description,
       showProgress: true,
       pauseOnHover: false,
     });
@@ -16,4 +16,4 @@ export const useMessage = () => {
     contextHolder,
     openNotification,
   };
-};
+}

@@ -11,14 +11,15 @@ const App = lazy(async () => {
   return { default: module.App };
 });
 
-const main = async () => {
+async function main() {
   try {
     await import('./config/env.client');
-  } catch (e) {
+  }
+  catch (e) {
     root.render(
       <ConfigurationError
         message="Environment configuration error"
-      />
+      />,
     );
     throw e;
   }
@@ -26,8 +27,8 @@ const main = async () => {
   root.render(
     <StrictMode>
       <App />
-    </StrictMode>
+    </StrictMode>,
   );
-};
+}
 
 main();

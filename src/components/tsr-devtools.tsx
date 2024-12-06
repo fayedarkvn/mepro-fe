@@ -10,8 +10,7 @@ export function TSRDevtools() {
     <Suspense>
       {import.meta.env.MODE === 'production'
         ? null
-        : <TanStackRouterDevtools initialIsOpen={false} />
-      }
+        : <TanStackRouterDevtools initialIsOpen={false} />}
     </Suspense>
   );
 }

@@ -9,7 +9,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [react(), tsconfigPaths()],
-    envDir: envDir,
+    envDir,
     root: './',
     server: {
       port: Number(env.VITE_APP_PORT) || undefined,
