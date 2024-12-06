@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { createContext, ReactNode, useContext } from 'react';
+import { createContext, ReactNode, useContext, useMemo, useCallback } from 'react';
 import { LOCAL_STORAGE_KEY } from 'src/constants/local-storage.constant';
 import { IUser } from 'src/types/user';
 import { getMeApi, LoginResponse } from '../api/auth.api';
@@ -15,14 +15,15 @@ export interface IAuthContext {
 
 const AuthContext = createContext<IAuthContext | undefined>(undefined);
 
-export const AuthProvider = ({ children }: { children: ReactNode; }) => {
+export function AuthProvider({ children }: { children: ReactNode }) {
   const queryClient = useQueryClient();
 
   const { data: user, isLoading } = useQuery<IUser | null>({
     queryKey: ['auth', 'user'],
     queryFn: async () => {
       const storedToken = localStorage.getItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN);
-      if (!storedToken) return null;
+      if (!storedToken)
+        return null;
       const data = await getMeApi();
       return data;
     },
@@ -45,25 +46,34 @@ export const AuthProvider = ({ children }: { children: ReactNode; }) => {
     },
   });
 
-  const loginUser = async (loginFn: LoginFn) => {
+  const loginUser = useCallback(async (loginFn: LoginFn) => {
     return await loginMutation.mutateAsync(loginFn);
-  };
+  }, [loginMutation]);
 
-  const logoutUser = async (logoutFn: LogoutFn = () => Promise.resolve(null)) => {
+  const logoutUser = useCallback(async (logoutFn: LogoutFn = () => Promise.resolve(null)) => {
     return await logoutMutation.mutateAsync(logoutFn);
-  };
+  }, [logoutMutation]);
+
+  const authContextValue = useMemo(() => {
+    return {
+      user,
+      isLoading,
+      login: loginUser,
+      logout: logoutUser,
+    };
+  }, [user, isLoading, loginUser, logoutUser]);
 
   return (
-    <AuthContext.Provider value={{ user, isLoading, login: loginUser, logout: logoutUser }}>
+    <AuthContext.Provider value={authContextValue}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-export const useAuth = () => {
+export function useAuth() {
   const context = useContext(AuthContext);
   if (!context) {
     throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
-};
+}

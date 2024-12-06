@@ -3,7 +3,7 @@ import { AppBoundary } from './boundary';
 import { AppProvider } from './provider';
 import { router } from './router';
 
-export const App = () => {
+export function App() {
   return (
     <AppBoundary>
       <AppProvider>
@@ -11,4 +11,4 @@ export const App = () => {
       </AppProvider>
     </AppBoundary>
   );
-};
+}

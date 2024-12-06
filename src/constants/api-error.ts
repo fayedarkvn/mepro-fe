@@ -1,26 +1,26 @@
-import { IApiError } from "src/api/api";
+import { IApiError } from 'src/api/api';
 
 export const DEFAULT_API_ERROR: IApiError = {
-  message: 'Something went wrong'
+  message: 'Something went wrong',
 };
 
-export const DEFAULT_API_ERROR_STATUS: { [key: number]: IApiError; } = {
+export const DEFAULT_API_ERROR_STATUS: { [key: number]: IApiError } = {
   502: {
-    message: 'Bad gateway'
+    message: 'Bad gateway',
   },
   500: {
-    message: 'Internal server error'
+    message: 'Internal server error',
   },
   404: {
-    message: 'Not found'
+    message: 'Not found',
   },
   403: {
-    message: 'Forbidden'
+    message: 'Forbidden',
   },
   401: {
-    message: 'Unauthorized'
+    message: 'Unauthorized',
   },
   400: {
-    message: 'Bad request'
+    message: 'Bad request',
   },
 };

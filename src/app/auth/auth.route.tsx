@@ -4,7 +4,6 @@ import { AuthLayout } from './auth.layout';
 import { LoginPage } from './login/login.index';
 import { SignupPage } from './signup/signup.index';
 
-
 const _authRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/auth',
