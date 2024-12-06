@@ -1,53 +1,44 @@
-import js from '@eslint/js';
-import checkFile from 'eslint-plugin-check-file';
-import react from 'eslint-plugin-react';
-import reactHooks from 'eslint-plugin-react-hooks';
-import globals from 'globals';
-import tseslint from 'typescript-eslint';
+import {
+  combine,
+  comments,
+  ignores,
+  imports,
+  javascript,
+  jsdoc,
+  jsonc,
+  markdown,
+  node,
+  stylistic,
+  typescript,
+  unicorn,
+  yaml,
+  react,
+} from '@antfu/eslint-config';
 
-export default tseslint.config(
-  { ignores: ['dist'] },
-  {
-    extends: [
-      js.configs.recommended,
-      ...tseslint.configs.recommended,
-    ],
-    files: ['**/*.{ts,tsx}'],
-    languageOptions: {
-      ecmaVersion: 2020,
-      globals: globals.browser,
+export default combine(
+  ignores(),
+  javascript(),
+  comments(),
+  node(),
+  jsdoc(),
+  imports(),
+  unicorn(),
+  typescript({
+    overrides: {
+      'ts/consistent-type-imports': 'off',
     },
-    plugins: {
-      'react-hooks': reactHooks,
-      'check-file': checkFile,
-      'react': react,
+  }),
+  stylistic({
+    semi: true,
+    indent: 2,
+    quotes: 'single',
+  }),
+  jsonc(),
+  yaml(),
+  markdown(),
+  react({
+    overrides: {
+      'react-refresh/only-export-components': 'off',
     },
-    rules: {
-      'eol-last': ['error', 'always'],
-      'react-hooks/rules-of-hooks': 'error',
-      'react-hooks/exhaustive-deps': 'warn',
-      '@typescript-eslint/no-explicit-any': 'off',
-      '@typescript-eslint/no-unused-vars': 'warn',
-      '@typescript-eslint/explicit-function-return-type': 'off',
-      '@typescript-eslint/explicit-module-boundary-types': 'off',
-      '@typescript-eslint/no-empty-function': 'off',
-      'check-file/filename-naming-convention': [
-        'error',
-        {
-          '**/*.{ts,tsx}': 'KEBAB_CASE',
-        },
-        {
-          ignoreMiddleExtensions: true,
-        },
-      ],
-    },
-  },
-  {
-    files: ['**/*.{ts,tsx}'],
-    ...react.configs.flat.recommended,
-    rules: {
-      'react/jsx-uses-react': 'off',
-      'react/react-in-jsx-scope': 'off',
-    },
-  }
-)
+  }),
+);
