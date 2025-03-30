@@ -1,5 +1,5 @@
 import { createRoute } from '@tanstack/react-router';
-import { rootRoute } from '../router';
+import { rootRoute } from '../../app/router';
 import { PublicProfileIndexPage } from './public-profile-index';
 import { PublicProfileLayout } from './public-profile.layout';
 

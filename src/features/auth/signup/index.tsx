@@ -12,7 +12,7 @@ export function SignupPage() {
   const { contextHolder, openNotification } = useMessage();
   const [loading, setLoading] = useState(false);
   const gotoLogin = () => {
-    window.location.href = '/auth/login';
+    window.location.href = '/login';
   };
   const submitSignup = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -39,7 +39,7 @@ export function SignupPage() {
         .then(() => {
           setLoading(false);
           setLoading(false);
-          window.location.href = '/auth/login';
+          window.location.href = '/login';
         })
         .catch((error: IApiError) => {
           openNotification(error.message);

@@ -1,6 +1,6 @@
 import { createRoute } from '@tanstack/react-router';
-import { rootRoute } from '../router';
-import { LandingPage } from './landing-page';
+import { rootRoute } from '../../app/router';
+import { LandingPage } from './landing-page/landing-page';
 
 export const indexPageRoute = createRoute({
   getParentRoute: () => rootRoute,

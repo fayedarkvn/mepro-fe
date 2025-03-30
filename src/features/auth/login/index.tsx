@@ -91,7 +91,7 @@ export function LoginPage() {
   });
 
   const gotoSignup = () => {
-    window.location.href = '/auth/signup';
+    window.location.href = '/signup';
   };
 
   // get recently users

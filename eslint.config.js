@@ -16,7 +16,9 @@ import {
 } from '@antfu/eslint-config';
 
 export default combine(
-  ignores(),
+  ignores([
+    'src/route-tree.gen.ts',
+  ]),
   javascript(),
   comments(),
   node(),
