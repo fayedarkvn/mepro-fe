@@ -1,7 +1,7 @@
-import { InputLabel } from '@mui/material';
-import { Button, Checkbox, Form, Input } from 'antd';
-import FormItem from 'antd/es/form/FormItem';
-import { useEffect, useState } from 'react';
+import { InputLabel } from "@mui/material";
+import { Button, Checkbox, Form, Input } from "antd";
+import FormItem from "antd/es/form/FormItem";
+import { useEffect, useState } from "react";
 
 interface LocalEnv {
   autoLoad: boolean;
@@ -12,10 +12,10 @@ export function EnvConfigDevtool() {
   const [env, setEnv] = useState<Record<string, string>>({});
   const [autoLoad, setAutoLoad] = useState(false);
   const defaultEnv = { ...import.meta.env };
-  const listKey = ['BASE_URL'];
+  const listKey = ["BASE_URL"];
 
   useEffect(() => {
-    const localEnvData = localStorage.getItem('local-env');
+    const localEnvData = localStorage.getItem("local-env");
     if (localEnvData) {
       const localEnv = JSON.parse(localEnvData) as LocalEnv;
       if (localEnv.autoLoad) {
@@ -39,14 +39,14 @@ export function EnvConfigDevtool() {
   };
 
   const handleSaveEnvClick = () => {
-    localStorage.setItem('local-env', JSON.stringify({ autoLoad, env }));
+    localStorage.setItem("local-env", JSON.stringify({ autoLoad, env }));
   };
 
   const handleResetEnvClick = () => {
     for (const key in defaultEnv) {
       import.meta.env[key] = defaultEnv[key];
     }
-    localStorage.removeItem('local-env');
+    localStorage.removeItem("local-env");
   };
 
   return (

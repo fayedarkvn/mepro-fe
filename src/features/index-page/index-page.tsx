@@ -1,4 +1,4 @@
-import { LandingPage } from './landing-page/landing-page';
+import { LandingPage } from "./landing-page/landing-page";
 
 export function IndexPage() {
   return (

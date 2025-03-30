@@ -1,8 +1,8 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { createContext, ReactNode, useContext, useMemo, useCallback } from 'react';
-import { LOCAL_STORAGE_KEY } from 'src/constants/local-storage.constant';
-import { IUser } from 'src/types/user';
-import { getMeApi, LoginResponse } from '../api/auth.api';
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { createContext, ReactNode, useContext, useMemo, useCallback } from "react";
+import { LOCAL_STORAGE_KEY } from "src/constants/local-storage.constant";
+import { IUser } from "src/types/user";
+import { getMeApi, LoginResponse } from "../api/auth.api";
 
 type LoginFn = () => Promise<LoginResponse>;
 type LogoutFn = () => Promise<any>;
@@ -19,7 +19,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const queryClient = useQueryClient();
 
   const { data: user, isLoading } = useQuery<IUser | null>({
-    queryKey: ['auth', 'user'],
+    queryKey: ["auth", "user"],
     queryFn: async () => {
       const storedToken = localStorage.getItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN);
       if (!storedToken)
@@ -34,7 +34,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     mutationFn: async (loginFn: LoginFn) => loginFn(),
     onSuccess: (data) => {
       localStorage.setItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN, data.accessToken);
-      queryClient.setQueryData(['auth', 'user'], data.user);
+      queryClient.setQueryData(["auth", "user"], data.user);
     },
   });
 
@@ -42,7 +42,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     mutationFn: async (logoutFn: LogoutFn) => logoutFn(),
     onSuccess: () => {
       localStorage.removeItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN);
-      queryClient.setQueryData(['auth', 'user'], null);
+      queryClient.setQueryData(["auth", "user"], null);
     },
   });
 
@@ -73,7 +73,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 export function useAuth() {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 }

@@ -1,46 +1,29 @@
-import {
-  combine,
-  comments,
-  ignores,
-  imports,
-  javascript,
-  jsdoc,
-  jsonc,
-  markdown,
-  node,
-  stylistic,
-  typescript,
-  unicorn,
-  yaml,
-  react,
-} from '@antfu/eslint-config';
+import antfu from "@antfu/eslint-config";
 
-export default combine(
-  ignores([
-    'src/route-tree.gen.ts',
-  ]),
-  javascript(),
-  comments(),
-  node(),
-  jsdoc(),
-  imports(),
-  unicorn(),
-  typescript({
-    overrides: {
-      'ts/consistent-type-imports': 'off',
-    },
-  }),
-  stylistic({
+export default antfu({
+  type: "app",
+  stylistic: {
     semi: true,
     indent: 2,
-    quotes: 'single',
-  }),
-  jsonc(),
-  yaml(),
-  markdown(),
-  react({
+    quotes: "double",
+  },
+  ignores: [
+    "src/route-tree.gen.ts",
+  ],
+  imports: true,
+  unicorn: true,
+  typescript: {
     overrides: {
-      'react-refresh/only-export-components': 'off',
+      "ts/consistent-type-imports": "off",
+      "perfectionist/sort-imports": "off",
+      "perfectionist/sort-named-imports": "off",
     },
-  }),
-);
+  },
+  react: {
+    overrides: {
+      "react-refresh/only-export-components": "off",
+      "react/no-array-index-key": "off",
+    },
+  },
+  javascript: true,
+});

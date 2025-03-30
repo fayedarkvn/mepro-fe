@@ -1,19 +1,19 @@
-import { lazy, StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
-import { ConfigurationError } from './components/configuration-error';
-import './css/index.css';
-import './css/tailwind.css';
+import { lazy, StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { ConfigurationError } from "./components/configuration-error";
+import "./css/index.css";
+import "./css/tailwind.css";
 
-const root = createRoot(document.getElementById('root')!);
+const root = createRoot(document.getElementById("root")!);
 
 const App = lazy(async () => {
-  const module = await import('./app');
+  const module = await import("./app");
   return { default: module.App };
 });
 
 async function main() {
   try {
-    await import('./config/env.client');
+    await import("./config/env.client");
   }
   catch (e) {
     root.render(

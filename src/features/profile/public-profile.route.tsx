@@ -1,17 +1,17 @@
-import { createRoute } from '@tanstack/react-router';
-import { rootRoute } from '../../app/router';
-import { PublicProfileIndexPage } from './public-profile-index';
-import { PublicProfileLayout } from './public-profile.layout';
+import { createRoute } from "@tanstack/react-router";
+import { rootRoute } from "../../app/router";
+import { PublicProfileIndexPage } from "./public-profile-index";
+import { PublicProfileLayout } from "./public-profile.layout";
 
 const _publicProfileRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: '/u',
+  path: "/u",
   component: PublicProfileLayout,
 });
 
 export const profileRoute = createRoute({
   getParentRoute: () => _publicProfileRoute,
-  path: '/$uid',
+  path: "/$uid",
   component: PublicProfileIndexPage,
 });
 

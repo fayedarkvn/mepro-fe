@@ -1,33 +1,33 @@
-import { Button } from 'src/components/ui/button';
-import { Card } from 'src/components/ui/card';
-import { Input } from 'src/components/ui/input';
-import { signupApi } from 'src/api/auth.api';
-import LinearProgress from '@mui/material/LinearProgress';
-import { useState } from 'react';
-import { useMessage } from 'src/hook/message.hook.tsx';
-import { IApiError } from 'src/api/api.ts';
-import { Loader2 } from 'lucide-react';
+import { Button } from "src/components/ui/button";
+import { Card } from "src/components/ui/card";
+import { Input } from "src/components/ui/input";
+import { signupApi } from "src/api/auth.api";
+import LinearProgress from "@mui/material/LinearProgress";
+import { useState } from "react";
+import { useMessage } from "src/hook/message.hook.tsx";
+import { IApiError } from "src/api/api.ts";
+import { Loader2 } from "lucide-react";
 
 export function SignupPage() {
   const { contextHolder, openNotification } = useMessage();
   const [loading, setLoading] = useState(false);
   const gotoLogin = () => {
-    window.location.href = '/login';
+    window.location.href = "/login";
   };
   const submitSignup = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(true);
     const formData = new FormData(event.currentTarget);
-    const name = formData.get('name') as string;
-    const email = formData.get('email') as string;
-    const password = formData.get('password') as string;
-    const confirmPassword = formData.get('confirm_password') as string;
+    const name = formData.get("name") as string;
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+    const confirmPassword = formData.get("confirm_password") as string;
     if (password !== confirmPassword) {
-      openNotification('The password you entered does not match');
+      openNotification("The password you entered does not match");
       setLoading(false);
     }
-    if (name === '' || email === '' || password === '' || confirmPassword === '') {
-      openNotification('Please fill in the information completely');
+    if (name === "" || email === "" || password === "" || confirmPassword === "") {
+      openNotification("Please fill in the information completely");
       setLoading(false);
     }
     else {
@@ -39,7 +39,7 @@ export function SignupPage() {
         .then(() => {
           setLoading(false);
           setLoading(false);
-          window.location.href = '/login';
+          window.location.href = "/login";
         })
         .catch((error: IApiError) => {
           openNotification(error.message);

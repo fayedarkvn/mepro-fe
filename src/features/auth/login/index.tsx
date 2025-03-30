@@ -1,15 +1,15 @@
-import { useGoogleLogin } from '@react-oauth/google';
-import { googleLoginApi, loginApi } from 'src/api/auth.api';
-import { useAuth } from 'src/providers/auth.provider';
-import { useEffect, useState } from 'react';
-import { useMessage } from 'src/hook/message.hook';
-import { IUser } from 'src/types/user';
-import { IApiError } from 'src/api/api';
-import { Button } from 'src/components/ui/button';
-import { Card } from 'src/components/ui/card';
-import { Input } from 'src/components/ui/input';
-import LinearProgress from '@mui/material/LinearProgress';
-import { Loader2 } from 'lucide-react';
+import { useGoogleLogin } from "@react-oauth/google";
+import { googleLoginApi, loginApi } from "src/api/auth.api";
+import { useAuth } from "src/providers/auth.provider";
+import { useEffect, useState } from "react";
+import { useMessage } from "src/hook/message.hook";
+import { IUser } from "src/types/user";
+import { IApiError } from "src/api/api";
+import { Button } from "src/components/ui/button";
+import { Card } from "src/components/ui/card";
+import { Input } from "src/components/ui/input";
+import LinearProgress from "@mui/material/LinearProgress";
+import { Loader2 } from "lucide-react";
 
 export function LoginPage() {
   const { login, user, logout } = useAuth();
@@ -18,16 +18,16 @@ export function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [oldUsers, setOldUsers] = useState<IUser[]>([]);
   const [reload, setReload] = useState(false);
-  const [valueMail, setValueMail] = useState<string>('');
+  const [valueMail, setValueMail] = useState<string>("");
   // function add new data user to localStorage
   const saveUserToLocalStorage = (newUser: IUser) => {
-    const storedUsers = JSON.parse(localStorage.getItem('oldUsers') || '[]');
+    const storedUsers = JSON.parse(localStorage.getItem("oldUsers") || "[]");
     const isDuplicate = storedUsers.some(
       (user: any) => user.email === newUser.email,
     );
     if (!isDuplicate) {
       storedUsers.push(newUser);
-      localStorage.setItem('oldUsers', JSON.stringify(storedUsers));
+      localStorage.setItem("oldUsers", JSON.stringify(storedUsers));
     }
   };
 
@@ -35,7 +35,7 @@ export function LoginPage() {
   const deleteOldUser = (id: number) => {
     const updatedUsers = oldUsers.filter(data => data.id !== id);
     setOldUsers(updatedUsers);
-    localStorage.setItem('oldUsers', JSON.stringify(updatedUsers));
+    localStorage.setItem("oldUsers", JSON.stringify(updatedUsers));
     setReload(true);
   };
 
@@ -48,16 +48,16 @@ export function LoginPage() {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const loginFn = () => loginApi({
-      username: formData.get('username') as string,
-      password: formData.get('password') as string,
+      username: formData.get("username") as string,
+      password: formData.get("password") as string,
     });
     setLoading(true);
     await login(loginFn)
       .then((response) => {
         saveUserToLocalStorage(response.user);
         // kiểm tra xem trong localstorage có link điều hướng từ trang cũ tới không
-        const oldLink = localStorage.getItem('oldLink') as string;
-        window.location.href = oldLink !== null ? oldLink : '/';
+        const oldLink = localStorage.getItem("oldLink") as string;
+        window.location.href = oldLink !== null ? oldLink : "/";
       })
       .catch((error: IApiError) => {
         const description = error.message;
@@ -79,24 +79,24 @@ export function LoginPage() {
         .then((response) => {
           saveUserToLocalStorage(response.user);
           // kiểm tra xem trong localstorage có link điều hướng từ trang cũ tới không
-          const oldLink = localStorage.getItem('oldLink') as string;
-          window.location.href = oldLink !== null ? oldLink : '/';
+          const oldLink = localStorage.getItem("oldLink") as string;
+          window.location.href = oldLink !== null ? oldLink : "/";
         })
         .catch((error: IApiError) => {
           const description = error.message;
           openNotification(description);
         });
     },
-    flow: 'auth-code',
+    flow: "auth-code",
   });
 
   const gotoSignup = () => {
-    window.location.href = '/signup';
+    window.location.href = "/signup";
   };
 
   // get recently users
   useEffect(() => {
-    const users = JSON.parse(localStorage.getItem('oldUsers') || '[]');
+    const users = JSON.parse(localStorage.getItem("oldUsers") || "[]");
     setOldUsers(users);
     setReload(false);
   }, [reload]);
@@ -260,7 +260,7 @@ export function LoginPage() {
                                 <img
                                   src={
                                     data.image === null
-                                      ? '/default-avt-user.webp'
+                                      ? "/default-avt-user.webp"
                                       : data.imageUrl
                                   }
                                   alt="User 1"

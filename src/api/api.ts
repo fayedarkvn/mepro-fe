@@ -1,7 +1,7 @@
-import Axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
-import { env } from 'src/config/env.client';
-import { DEFAULT_API_ERROR, DEFAULT_API_ERROR_STATUS } from 'src/constants/api-error';
-import { LOCAL_STORAGE_KEY } from 'src/constants/local-storage.constant';
+import Axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
+import { env } from "src/config/env.client";
+import { DEFAULT_API_ERROR, DEFAULT_API_ERROR_STATUS } from "src/constants/api-error";
+import { LOCAL_STORAGE_KEY } from "src/constants/local-storage.constant";
 
 export interface IApiError {
   message: string;
@@ -45,7 +45,7 @@ function apiErrorInterceptor(error: AxiosError<any>) {
     apiError.data = response.data;
   }
 
-  if (error.code === 'ERR_NETWORK') {
+  if (error.code === "ERR_NETWORK") {
     apiError.message = error.message;
   }
 
