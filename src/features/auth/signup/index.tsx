@@ -1,11 +1,11 @@
-import { Button } from "src/components/ui/button";
-import { Card } from "src/components/ui/card";
-import { Input } from "src/components/ui/input";
-import { signupApi } from "src/api/auth.api";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { signupApi } from "@/api/auth.api";
 import LinearProgress from "@mui/material/LinearProgress";
 import { useState } from "react";
-import { useMessage } from "src/hook/message.hook.tsx";
-import { IApiError } from "src/api/api.ts";
+import { useMessage } from "@/hook/message.hook.tsx";
+import { IApiError } from "@/api/api.ts";
 import { Loader2 } from "lucide-react";
 
 export function SignupPage() {

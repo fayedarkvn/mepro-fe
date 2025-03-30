@@ -1,7 +1,7 @@
 import Axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
-import { env } from "src/config/env.client";
-import { DEFAULT_API_ERROR, DEFAULT_API_ERROR_STATUS } from "src/constants/api-error";
-import { LOCAL_STORAGE_KEY } from "src/constants/local-storage.constant";
+import { env } from "@/config/env.client";
+import { DEFAULT_API_ERROR, DEFAULT_API_ERROR_STATUS } from "@/constants/api-error";
+import { LOCAL_STORAGE_KEY } from "@/constants/local-storage.constant";
 
 export interface IApiError {
   message: string;

@@ -1,4 +1,4 @@
-import { IApiError } from "src/api/api";
+import { IApiError } from "@/api/api";
 
 export const DEFAULT_API_ERROR: IApiError = {
   message: "Something went wrong",

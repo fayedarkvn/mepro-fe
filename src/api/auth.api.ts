@@ -1,5 +1,5 @@
-import { api } from "src/api/api";
-import { IUser } from "src/types/user";
+import { api } from "@/api/api";
+import { IUser } from "@/types/user";
 
 export interface LoginResponse {
   accessToken: string;

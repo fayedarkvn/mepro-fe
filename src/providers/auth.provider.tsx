@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createContext, ReactNode, useContext, useMemo, useCallback } from "react";
-import { LOCAL_STORAGE_KEY } from "src/constants/local-storage.constant";
-import { IUser } from "src/types/user";
+import { LOCAL_STORAGE_KEY } from "@/constants/local-storage.constant";
+import { IUser } from "@/types/user";
 import { getMeApi, LoginResponse } from "../api/auth.api";
 
 type LoginFn = () => Promise<LoginResponse>;

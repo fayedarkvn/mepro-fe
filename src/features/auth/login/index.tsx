@@ -1,13 +1,13 @@
 import { useGoogleLogin } from "@react-oauth/google";
-import { googleLoginApi, loginApi } from "src/api/auth.api";
-import { useAuth } from "src/providers/auth.provider";
+import { googleLoginApi, loginApi } from "@/api/auth.api";
+import { useAuth } from "@/providers/auth.provider";
 import { useEffect, useState } from "react";
-import { useMessage } from "src/hook/message.hook";
-import { IUser } from "src/types/user";
-import { IApiError } from "src/api/api";
-import { Button } from "src/components/ui/button";
-import { Card } from "src/components/ui/card";
-import { Input } from "src/components/ui/input";
+import { useMessage } from "@/hook/message.hook";
+import { IUser } from "@/types/user";
+import { IApiError } from "@/api/api";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import LinearProgress from "@mui/material/LinearProgress";
 import { Loader2 } from "lucide-react";
 

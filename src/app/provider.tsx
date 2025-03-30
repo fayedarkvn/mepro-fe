@@ -1,7 +1,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AuthProvider } from "../providers/auth.provider";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import { env } from "src/config/env.client";
+import { env } from "@/config/env.client";
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const queryClient = new QueryClient({
