@@ -1,5 +1,5 @@
 import { createRoute } from '@tanstack/react-router';
-import { rootRoute } from '../router';
+import { rootRoute } from '../../app/router';
 import { DashboardLayout } from './dashboard.layout';
 import { DashboardProfilePage } from './profile';
 

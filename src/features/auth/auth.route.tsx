@@ -1,5 +1,5 @@
 import { createRoute } from '@tanstack/react-router';
-import { rootRoute } from '../router';
+import { rootRoute } from '../../app/router';
 import { AuthLayout } from './auth.layout';
 import { LoginPage } from './login/login.index';
 import { SignupPage } from './signup/signup.index';

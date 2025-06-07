@@ -1,5 +1,5 @@
 import { createRoute } from '@tanstack/react-router';
-import { rootRoute } from '../router';
+import { rootRoute } from '../../app/router';
 import { AboutPage } from './about';
 import { ContactPage } from './contact';
 import { InfomationalLayout } from './informational.layout';
