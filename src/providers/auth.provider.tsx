@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { createContext, ReactNode, useContext, useMemo, useCallback } from 'react';
+import { createContext, ReactNode, use, useMemo, useCallback } from 'react';
 import { LOCAL_STORAGE_KEY } from '@/constants/local-storage.constant';
 import { IUser } from '@/types/user';
 import { getMeApi, LoginResponse } from '../api/auth.api';
@@ -64,14 +64,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [user, isLoading, loginUser, logoutUser]);
 
   return (
-    <AuthContext.Provider value={authContextValue}>
+    <AuthContext value={authContextValue}>
       {children}
-    </AuthContext.Provider>
+    </AuthContext>
   );
 };
 
 export function useAuth() {
-  const context = useContext(AuthContext);
+  const context = use(AuthContext);
   if (!context) {
     throw new Error('useAuth must be used within an AuthProvider');
   }

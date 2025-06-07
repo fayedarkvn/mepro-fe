@@ -39,8 +39,8 @@ function apiErrorInterceptor(error: AxiosError<any>) {
 
     apiError.message
       = response.data?.message
-      ?? DEFAULT_API_ERROR_STATUS[status]?.message
-      ?? apiError.message;
+        ?? DEFAULT_API_ERROR_STATUS[status]?.message
+        ?? apiError.message;
 
     apiError.data = response.data;
   }
