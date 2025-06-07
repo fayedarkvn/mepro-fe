@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { SuspenseFallback } from 'src/components/fallback/suspense.fallback';
+import { SuspenseFallback } from '@/components/fallback/suspense.fallback';
 
 export function AppBoundary({ children }: { children: React.ReactNode }) {
   return (
