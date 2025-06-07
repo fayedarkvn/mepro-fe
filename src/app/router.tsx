@@ -1,11 +1,11 @@
 import { createRootRoute, createRouter, Outlet } from '@tanstack/react-router';
 import { NotFound } from '../components/error/not-found';
 import { TSRDevtools } from '../components/tsr-devtools';
-import { authRoute } from '../features/auth/auth.route';
-import { dashboardRoute } from '../features/dashboard/dashboard.route';
-import { indexPageRoute } from '../features/index-page/index-page.route';
-import { infomationalRoute } from '../features/informational/informational.route';
-import { publicProfileRoute } from '../features/public-profile/public-profile.route';
+import { authRouteTree } from './routes/auth.route';
+import { dashboardRouteTree } from './routes/dashboard.route';
+import { indexPageRouteTree } from './routes/index-page.route';
+import { informationalRouteTree } from './routes/informational.route';
+import { publicProfileRouteTree } from './routes/public-profile.route';
 
 export const rootRoute = createRootRoute({
   component: () => (
@@ -18,11 +18,11 @@ export const rootRoute = createRootRoute({
 });
 
 export const routeTree = rootRoute.addChildren([
-  indexPageRoute,
-  infomationalRoute,
-  dashboardRoute,
-  authRoute,
-  publicProfileRoute,
+  indexPageRouteTree,
+  authRouteTree,
+  dashboardRouteTree,
+  publicProfileRouteTree,
+  informationalRouteTree,
 ]);
 
 export const router = createRouter({
