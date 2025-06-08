@@ -85,6 +85,11 @@
     resize-observer-polyfill "^1.5.1"
     throttle-debounce "^5.0.0"
 
+"@ant-design/v5-patch-for-react-19@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@ant-design/v5-patch-for-react-19/-/v5-patch-for-react-19-1.0.3.tgz#6f522be2dd3440952617590bde5a1237a848a416"
+  integrity sha512-iWfZuSUl5kuhqLUw7jJXUQFMMkM7XpW7apmKzQBQHU0cpifYW4A79xIBt9YVO5IBajKpPG5UKP87Ft7Yrw1p/w==
+
 "@antfu/eslint-config@^4.14.1":
   version "4.14.1"
   resolved "https://registry.yarnpkg.com/@antfu/eslint-config/-/eslint-config-4.14.1.tgz#aa886cc571bd8912b279aa1032c99c2b601aeec3"
@@ -1200,6 +1205,18 @@
   resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-5.80.6.tgz#d2e54fa9eabebc953c675b74b17d6cd45a2a4cb4"
   integrity sha512-nl7YxT/TAU+VTf+e2zTkObGTyY8YZBMnbgeA1ee66lIVqzKlYursAII6z5t0e6rXgwUMJSV4dshBTNacNpZHbQ==
 
+"@tanstack/query-devtools@5.80.0":
+  version "5.80.0"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-devtools/-/query-devtools-5.80.0.tgz#7fc7d0e3d935a0f163e06e9477bbf11b3c20fad5"
+  integrity sha512-D6gH4asyjaoXrCOt5vG5Og/YSj0D/TxwNQgtLJIgWbhbWCC/emu2E92EFoVHh4ppVWg1qT2gKHvKyQBEFZhCuA==
+
+"@tanstack/react-query-devtools@^5.80.6":
+  version "5.80.6"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query-devtools/-/react-query-devtools-5.80.6.tgz#3e2b63359d50eac6be6e4e70a8985049a0e810e6"
+  integrity sha512-y7Es0OJ4RYQxrPYsuuQP0jxjgJ40a03UbEPmJ6vwf/ERVMRoRIMkpjtvPxf1D+n9nwPfWmGdD0jW8Wxd+TxeEw==
+  dependencies:
+    "@tanstack/query-devtools" "5.80.0"
+
 "@tanstack/react-query@^5.80.6":
   version "5.80.6"
   resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-5.80.6.tgz#9c77f05f3236b95693caaea155e5eaa4459f0197"
@@ -1249,15 +1266,6 @@
   resolved "https://registry.yarnpkg.com/@tanstack/router-devtools-core/-/router-devtools-core-1.120.17.tgz#91b0af8baa37ab2d6db7e18e1b4437448f565663"
   integrity sha512-Ci2OV/hecsKy/ZXqK3gLS/h1Qg7OEl2Gy9c76iSYWIzroQ9nhKgsQ+qj+LxucImztWujNINXf23wkq5fVlR0EQ==
   dependencies:
-    clsx "^2.1.1"
-    goober "^2.1.16"
-
-"@tanstack/router-devtools@^1.120.18":
-  version "1.120.18"
-  resolved "https://registry.yarnpkg.com/@tanstack/router-devtools/-/router-devtools-1.120.18.tgz#68f128cbeac5d7b03bde1d95640c1f5f75488835"
-  integrity sha512-9P74erkZQprhMIJftzein35WS0Fi2J+jOvNaaylX59k+2wjahYdSImIkICAEGmj2K5C51QsPFUrikYVTT591LA==
-  dependencies:
-    "@tanstack/react-router-devtools" "^1.120.18"
     clsx "^2.1.1"
     goober "^2.1.16"
 

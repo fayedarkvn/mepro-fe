@@ -1,35 +1,23 @@
-import { useGoogleLogin } from '@react-oauth/google';
-import { googleLoginApi, loginApi } from '@/api/auth.api';
-import { useAuth } from '@/providers/auth.provider';
+import { Loader2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { useMessage } from '@/hook/message.hook';
-import { IUser } from '@/types/user';
-import { IApiError } from '@/api/api';
+
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import LinearProgress from '@mui/material/LinearProgress';
-import { Loader2 } from 'lucide-react';
+import { useAuth } from '@/hook/auth.hook';
+import { useMessage } from '@/hook/message.hook';
+import { IUser } from '@/types/user';
+import { LinearProgress } from '@mui/material';
+import { useGoogleLogin } from '@react-oauth/google';
+import { notification } from 'antd';
+import { Link, useNavigate } from '@tanstack/react-router';
 
 export function LoginPage() {
-  const { login, user, logout } = useAuth();
-  const { contextHolder, openNotification } = useMessage();
-  // States
-  const [loading, setLoading] = useState(false);
+  const auth = useAuth();
+  const navigate = useNavigate();
   const [oldUsers, setOldUsers] = useState<IUser[]>([]);
   const [reload, setReload] = useState(false);
   const [valueMail, setValueMail] = useState<string>('');
-  // function add new data user to localStorage
-  const saveUserToLocalStorage = (newUser: IUser) => {
-    const storedUsers = JSON.parse(localStorage.getItem('oldUsers') || '[]');
-    const isDuplicate = storedUsers.some(
-      (user: any) => user.email === newUser.email,
-    );
-    if (!isDuplicate) {
-      storedUsers.push(newUser);
-      localStorage.setItem('oldUsers', JSON.stringify(storedUsers));
-    }
-  };
 
   // function delete recently users
   const deleteOldUser = (id: number) => {
@@ -45,54 +33,53 @@ export function LoginPage() {
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const loginFn = () => loginApi({
-      username: formData.get('username') as string,
-      password: formData.get('password') as string,
-    });
-    setLoading(true);
-    await login(loginFn)
-      .then((response) => {
-        saveUserToLocalStorage(response.user);
-        // kiểm tra xem trong localstorage có link điều hướng từ trang cũ tới không
-        const oldLink = localStorage.getItem('oldLink') as string;
-        window.location.href = oldLink !== null ? oldLink : '/';
-      })
-      .catch((error: IApiError) => {
-        const description = error.message;
-        openNotification(description);
-      })
-      .finally(() => {
-        setLoading(false);
+    try {
+      event.preventDefault();
+      const formData = new FormData(event.currentTarget);
+
+      await auth.loginMutation.mutateAsync({
+        username: formData.get('username') as string,
+        password: formData.get('password') as string,
       });
+
+      notification.success({
+        message: 'Login successful',
+      });
+
+      navigate({
+        to: '/dashboard',
+      });
+    }
+    catch (error: any) {
+      console.error('Login error:', error);
+      notification.error({
+        message: 'Login failed',
+        description: error?.message,
+      });
+    }
   };
 
-  const handleLogoutClick = () => {
-    logout();
+  const handleLogoutClick = async () => {
+    await auth.logoutMutation.mutateAsync();
   };
 
   const googleLogin = useGoogleLogin({
     onSuccess: async ({ code }) => {
-      const loginFn = async () => googleLoginApi(code);
-      await login(loginFn)
-        .then((response) => {
-          saveUserToLocalStorage(response.user);
-          // kiểm tra xem trong localstorage có link điều hướng từ trang cũ tới không
-          const oldLink = localStorage.getItem('oldLink') as string;
-          window.location.href = oldLink !== null ? oldLink : '/';
-        })
-        .catch((error: IApiError) => {
-          const description = error.message;
-          openNotification(description);
+      try {
+        await auth.googleLoginMutation.mutateAsync(code);
+        notification.success({
+          message: 'Login successful',
         });
+      }
+      catch (error: any) {
+        notification.success({
+          message: 'Login failed',
+          description: error?.message,
+        });
+      }
     },
     flow: 'auth-code',
   });
-
-  const gotoSignup = () => {
-    window.location.href = '/auth/signup';
-  };
 
   // get recently users
   useEffect(() => {
@@ -101,9 +88,12 @@ export function LoginPage() {
     setReload(false);
   }, [reload]);
 
+  const { data: user } = auth.getUserQuery;
+  const loading = auth.loginMutation.isPending;
+
   return (
     <div className="min-w-screen">
-      {user !== null
+      {user
         ? (
             <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
               <h2 className="text-2xl font-bold text-gray-700 mb-2">Logged in</h2>
@@ -121,7 +111,6 @@ export function LoginPage() {
           )
         : (
             <>
-              {contextHolder}
               <div className="w-full min-h-screen bg-gray-100">
                 {loading && <LinearProgress />}
                 <div className="min-h-screen flex items-center justify-center p-4">
@@ -132,8 +121,10 @@ export function LoginPage() {
                         <p className="text-gray-400 mb-4">
                           Please register an account to join our community
                         </p>
-                        <Button onClick={gotoSignup} variant="outline" className="border-white bg-black text-white hover:text-black hover:bg-white">
-                          SIGN UP
+                        <Button variant="outline" className="border-white bg-black text-white hover:text-black hover:bg-white" asChild>
+                          <Link to="/signup">
+                            SIGN UP
+                          </Link>
                         </Button>
                       </div>
                     </div>
@@ -219,7 +210,7 @@ export function LoginPage() {
                           />
                           <Input type="password" name="password" placeholder="Password" />
                           <Button type="submit" className="w-full bg-black text-white hover:bg-gray-900">
-                            {loading && <Loader2 className="animate-spin" />}
+                            {auth.loginMutation.isPending && <Loader2 className="animate-spin" />}
                             LOG IN
                           </Button>
                         </form>
