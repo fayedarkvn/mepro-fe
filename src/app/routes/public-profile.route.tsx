@@ -1,6 +1,6 @@
 import { createRoute } from '@tanstack/react-router';
 import { rootRoute } from '../router';
-import { PublicProfileIndexPage } from '../../features/public-profile/index.page';
+import { PublicProfilePage } from '../../features/public-profile/index.page';
 import { PublicProfileLayout } from '../../features/public-profile/layout';
 
 const publicProfileRoute = createRoute({
@@ -12,7 +12,7 @@ const publicProfileRoute = createRoute({
 const profileRoute = createRoute({
   getParentRoute: () => publicProfileRoute,
   path: '/$uid',
-  component: PublicProfileIndexPage,
+  component: PublicProfilePage,
 });
 
 export const publicProfileRouteTree = publicProfileRoute.addChildren([

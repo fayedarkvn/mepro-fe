@@ -1,10 +1,7 @@
-import { Outlet } from '@tanstack/react-router';
+import ProfileCard from './ProfileCard';
 
 export function PublicProfileLayout() {
   return (
-    <div>
-      <h3>Public Profile</h3>
-      <Outlet />
-    </div>
+    <ProfileCard />
   );
 }

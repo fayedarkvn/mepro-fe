@@ -1,8 +1,8 @@
 import { useParams } from '@tanstack/react-router';
 
-export function PublicProfileIndexPage() {
-  const { uid } = useParams({ strict: false });
+export function PublicProfilePage() {
   return (
-    <div>{uid}</div>
+    <>
+    </>
   );
 }
